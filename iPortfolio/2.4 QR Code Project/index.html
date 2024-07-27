@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <p>This project allows you to generate a QR code from a URL entered by the user. The QR code image is saved as <code>qr_img.png</code> and the URL is saved in <code>URL.txt</code>.</p>
+        <h2>How to Run the Project</h2>
+        <p>Follow the instructions below to run the project on your local machine:</p>
+        <pre>
+1. Download or clone the project repository:
+   <a href="https://github.com/yourusername/qr-code-generator" target="_blank">https://github.com/yourusername/qr-code-generator</a>
+
+2. Navigate to the project directory:
+   <code>cd qr-code-generator</code>
+
+3. Install the dependencies:
+   <code>npm install</code>
+
+4. Run the project:
+   <code>npm start</code>
+        </pre>
+        <h2>Dependencies</h2>
+        <p>This project uses the following npm packages:</p>
+        <ul>
+            <li><code>inquirer</code>: For user input</li>
+            <li><code>qr-image</code>: To generate QR codes</li>
+            <li><code>fs</code>: Native Node.js module for file system operations</li>
+        </ul>
+    </div>
+</body>
+</html>

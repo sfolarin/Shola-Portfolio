@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <title>Coder</title>
+    <meta charset="utf-8">
+    <!-- Standard Coder Includes -->
+    <script>
+        var appname = "{{app_name}}"; //app name (id) of this app
+        var appurl = "{{&app_url}}";
+        var staticurl = "{{&static_url}}"; //base path to your static files /static/apps/yourapp
+    </script>
+    <link href="/static/apps/coderlib/css/index.css" media="screen" rel="stylesheet" type="text/css"/>
+    <script src="/static/common/js/jquery.min.js"></script>
+    <script src="/static/common/ace-min/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/apps/coderlib/js/index.js"></script>
+    <script>
+        Coder.addBasicNav();
+    </script>
+    <!-- End Coder Includes -->
+
+    <!-- This app's includes -->
+    <link href="{{&static_url}}/css/index.css" media="screen" rel="stylesheet" type="text/css"/>
+    <script src="{{&static_url}}/js/index.js"></script>
+    <!-- End apps includes -->
+</head>
+<body>
+    <div id= "canvas">
+        <div id= "toprow">
+            <div id= "bigbox" class= "red right"></div>
+            <div id= "divider1" class= "black right"></div>
+            <div id= "topleftcolumn" class= "right">
+                <div id= "mediumbox"></div>
+                <div id= "divider2" class= "black"></div>
+                <div id= "mediumbox"></div>
+            </div>
+
+        </div>
+        <div id= "middlerow" class= "black"></div>
+        <div id= "bottomrow">
+            <div id= "bottomrightcolumn" class= "right">
+                <div id= "tinybox"></div>
+                <div id= "divider4" class= "black"></div>
+                <div id= "tinybox" class= "yellow"></div>
+            </div>
+            <div id= "divider3" class= "black right"> </div>
+            <div id= "widebox" class= "right"> </div>
+            <div id= "divider3"class= "black right"> </div>
+            <div id= "smallbox"class= "blue right"> </div>
+        </div>
+    </div>
+   
+</body>
+</html>
