@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun with Linux for Cloud & DevOps Engineers</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background: #27ae60;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #27ae60;
+            border-bottom: 2px solid #27ae60;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        ul, ol {
+            margin: 0 0 1rem 1.5rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #ecf0f1;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        pre {
+            background: #ecf0f1;
+            padding: 1rem;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fun with Linux for Cloud & DevOps Engineers</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>New to Linux? This assignment covers all the required basics of Linux to be familiar for a DevOps engineer.</p>
+            <!-- Example Image -->
+            <div class="image-container">
+                <img src="assets/img/p4-img1.png" alt="Introduction to Linux">
+                <p>Introduction to Linux</p>
+            </div>
+        </section>
+        <section>
+            <h2>Skills</h2>
+            <p>Below skills are required to complete the deployment steps:</p>
+            <ul>
+                <li>Linux User Management</li>
+                <li>Permissions</li>
+                <li>Directory Structure</li>
+                <li>File Systems</li>
+                <li>File Management</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Pre-Requisites</h2>
+            <ul>
+                <li>Login to AWS cloud and create a Linux-based EC2 instance to complete the assignment.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Deployment</h2>
+            <p>Login to the server as superuser and perform the following tasks:</p>
+            <ul>
+                <li>Create users and set passwords – <code>user1</code>, <code>user2</code>, <code>user3</code></li>
+                <li>Create Groups – <code>devops</code>, <code>aws</code></li>
+                <li>Change the primary group of <code>user2</code> and <code>user3</code> to <code>devops</code> group</li>
+                <li>Add <code>aws</code> group as a secondary group to <code>user1</code></li>
+                <li>Create the file and directory structure as shown in the diagram.</li>
+                <li>Change the group of <code>/dir1</code>, <code>/dir7/dir10</code>, <code>/f2</code> to <code>devops</code> group</li>
+                <li>Change ownership of <code>/dir1</code>, <code>/dir7/dir10</code>, <code>/f2</code> to <code>user1</code></li>
+                <li>Login as <code>user1</code> and perform the following:</li>
+                <ul>
+                    <li>Create users and set passwords – <code>user4</code>, <code>user5</code></li>
+                    <li>Create Groups – <code>app</code>, <code>database</code></li>
+                </ul>
+                <li>Login as <code>user4</code> and perform the following:</li>
+                <ul>
+                    <li>Create directory – <code>/dir6/dir4</code></li>
+                    <li>Create file – <code>/f3</code></li>
+                    <li>Move the file from <code>/dir1/f1</code> to <code>/dir2/dir1/dir2</code></li>
+                    <li>Rename the file <code>/f2</code> to <code>/f4</code></li>
+                </ul>
+                <li>Login as <code>user1</code> and perform the following:</li>
+                <ul>
+                    <li>Create directory – <code>/home/user2/dir1</code></li>
+                    <li>Change to <code>/dir2/dir1/dir2/dir10</code> directory and create file <code>/opt/dir14/dir10/f1</code> using relative path method.</li>
+                    <li>Move the file from <code>/opt/dir14/dir10/f1</code> to <code>user1</code> home directory</li>
+                    <li>Delete the directory recursively <code>/dir4</code></li>
+                    <li>Delete all child files and directories under <code>/opt/dir14</code> using a single command.</li>
+                    <li>Write this text <q>Linux assessment for a DevOps Engineer!! Learn with Fun!!</q> to the <code>/f3</code> file and save it.</li>
+                </ul>
+                <li>Login as <code>user2</code> and perform the following:</li>
+                <ul>
+                    <li>Create file <code>/dir1/f2</code></li>
+                    <li>Delete <code>/dir6</code></li>
+                    <li>Delete <code>/dir8</code></li>
+                    <li>Replace the text <code>DevOps</code> with <code>devops</code> in the <code>/f3</code> file without using an editor.</li>
+                    <li>Using Vi-Editor, copy line 1 and paste it 10 times in the file <code>/f3</code>.</li>
+                    <li>Search for the pattern <code>Engineer</code> and replace it with <code>engineer</code> in the file <code>/f3</code> using a single command.</li>
+                    <li>Delete <code>/f3</code></li>
+                </ul>
+                <li>Login as <code>root</code> user and perform the following:</li>
+                <ul>
+                    <li>Search for the file name <code>f3</code> on the server and list all absolute paths where <code>f3</code> file is found.</li>
+                    <li>Show the count of the number of files in the directory <code>/</code></li>
+                    <li>Print the last line of the file <code>/etc/passwd</code></li>
+                    <li>Login to AWS and create a 5GB EBS volume in the same AZ as the EC2 instance and attach the EBS volume to the instance.</li>
+                    <li>Login as <code>root</code> user and perform the following:</li>
+                    <ul>
+                        <li>Create a File System on the new EBS volume attached in the previous step</li>
+                        <li>Mount the File System on <code>/data</code> directory</li>
+                        <li>Verify File System utilization using <code>df -h</code> command – This command must show <code>/data</code> file system</li>
+                        <li>Create file <code>f1</code> in the <code>/data</code> file system.</li>
+                    </ul>
+                </ul>
+                <li>Login as <code>user5</code> and perform the following:</li>
+                <ul>
+                    <li>Delete <code>/dir1</code></li>
+                    <li>Delete <code>/dir2</code></li>
+                    <li>Delete <code>/dir3</code></li>
+                    <li>Delete <code>/dir5</code></li>
+                    <li>Delete <code>/dir7</code></li>
+                    <li>Delete <code>/f1</code> & <code>/f4</code></li>
+                    <li>Delete <code>/opt/dir14</code></li>
+                </ul>
+                <li>Login as <code>root</code> user and perform the following:</li>
+                <ul>
+                    <li>Delete users – <code>user1</code>, <code>user2</code>, <code>user3</code>, <code>user4</code>, <code>user5</code></li>
+                    <li>Delete groups – <code>app</code>, <code>aws</code>, <code>database</code>, <code>devops</code></li>
+                    <li>Delete home directories of all users <code>user1</code>, <code>user2</code>, <code>user3</code>, <code>user4</code>, <code>user5</code> if any exist still.</li>
+                    <li>Unmount <code>/data</code> file system</li>
+                    <li>Delete <code>/data</code> directory</li>
+                    <li>Login to AWS and detach the EBS volume from the EC2 instance and delete the volume, then terminate the EC2 instance.</li>
+                </ul>
+                <p>All done? Still not confident? Repeat the steps!</p>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Fun with Linux. Happy Learning!</p>
+    </footer>
+</body>
+</html>

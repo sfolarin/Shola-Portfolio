@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploy Django Application on AWS using ECS and ECR</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background: #4a90e2;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #4a90e2;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            color: #4a90e2;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        ul, ol {
+            margin: 0 0 1rem 1.5rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #e8e8e8;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        pre {
+            background: #e8e8e8;
+            padding: 1rem;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Deploy Django Application on AWS using ECS and ECR</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>This article will deploy a Django-based application onto AWS using ECS (Elastic Container Service) and ECR (Elastic Container Registry). We start by creating the docker image of our application and pushing it to ECR. After that, we create the instance and deploy the application on AWS using ECS. Next, we ensure the application is running correctly using Django’s built-in web server.</p>
+            <div class="image-container">
+                <img src="assets/img/p5-img1.png" alt="ECS and ECR Architecture">
+                <p>ECS and ECR Architecture</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Prerequisites</h2>
+            <ul>
+                <li>Django</li>
+                <li>Background on Docker</li>
+                <li>AWS Account</li>
+                <li>Creativity is always a plus 😃</li>
+            </ul>
+            <!--
+            <div class="image-container">
+                <img src="images/django-overview.png" alt="Django Overview">
+                <p>Django Overview</p>
+            </div>-->
+        </section>
+
+        <section>
+            <h2>Django Web Framework</h2>
+            <p>Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It is free and open-source, has a thriving and active community, great documentation, and many free and paid-for support options. It uses HTML/CSS/Javascript for the frontend and Python for the backend.</p>
+            <!--
+            <div class="image-container">
+                <img src="images/django-framework.png" alt="Django Framework">
+                <p>Django Framework</p> -->
+            </div>
+        </section>
+
+        <section>
+            <h2>What are Dockers and Containers?</h2>
+            <h3>Docker</h3>
+            <p>Docker is an open platform software. It is used for developing, shipping, and running applications. Docker virtualizes the operating system of the computer on which it is installed and running. It provides the ability to package and run an application in a loosely isolated environment called a container. A container is a runnable instance of a Docker image. You can create, start, stop, move, or delete a container using the Docker API or CLI. You can connect a container to one or more networks, attach storage to it, or even create a new Docker image based on its current state.</p>
+            <div class="image-container">
+                <img src="assets/img/p5-img2.png" alt="Docker Container">
+                <p>Docker Container</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>What is AWS Elastic Container Registry?</h2>
+            <p>Amazon Elastic Container Registry (Amazon ECR) is a managed container image registry service. Customers can use the familiar Docker CLI, or their preferred client, to push, pull, and manage images. Amazon ECR provides a secure, scalable, and reliable registry for your Docker images.</p>
+            <!--
+            <div class="image-container">
+                <img src="images/ecr-service.png" alt="ECR Service">
+                <p>ECR Service</p>
+            </div>-->
+        </section>
+
+        <section>
+            <h2>ECR Steps</h2>
+            <ol>
+                <li>Create a Docker File — Add the “Dockerfile” to the Django application. It contains the series of commands required for the creation of the Docker image.</li>
+                <li>Build your Docker Image — Use the command to create the Docker image named “django-app:version:1”:
+                    <pre><code>docker build -t hello-world-django-app:version-1</code></pre>
+                </li>
+                <li>Check whether the Docker image is created or not:
+                    <pre><code>docker images | grep hello-world-django-app</code></pre>
+                </li>
+                <li>Create Repository on AWS ECR — Open the AWS console and search for ECR. Click on the Create Repository button. Choose between Private and Public visibility. Configure as needed.</li>
+                <li>Push the created Docker image to AWS ECR — Follow the steps to authenticate, tag, and push your Docker image:
+                    <pre><code>export AWS_ACCESS_KEY_ID=******
+export AWS_SECRET_ACCESS_KEY=******
+aws ecr get-login-password --region region | docker login --username AWS --password-stdin aws_account_id.dkr.ecr.region.amazonaws.com
+docker tag 480903dd8 aws_account_id.dkr.ecr.region.amazonaws.com/hello-world-django-app
+docker push aws_account_id.dkr.ecr.region.amazonaws.com/hello-world-django-app</code></pre>
+                </li>
+            </ol>
+            <!--
+            <div class="image-container">
+                <img src="images/ecr-steps.png" alt="ECR Steps">
+                <p>ECR Steps Overview</p>
+            </div>-->
+        </section>
+
+        <section>
+            <h2>What is AWS Elastic Container Service?</h2>
+            <p>Amazon Elastic Container Service (ECS) is a highly scalable, high-performance container management service that supports Docker containers and allows you to easily run applications on a managed cluster of Amazon EC2 instances. ECS enables you to manage your containerized applications and integrates with other AWS services.</p>
+            <!--
+            <div class="image-container">
+                <img src="images/ecs-service.png" alt="ECS Service">
+                <p>ECS Service</p>-->
+            </div>
+        </section>
+
+        <section>
+            <h2>ECS Steps</h2>
+            <ol>
+                <li>Create Cluster — Use the cluster creation console to customize common cluster configuration options.</li>
+                <li>Launch EC2 instance — Configure your cluster with network settings, CloudWatch Container Insights, and Auto-Scaling groups.</li>
+                <li>Create a Service that runs the task definition — Define how your ECS service runs.</li>
+                <li>Create a Task — Define your task including container configurations and port mappings.</li>
+                <li>Run instance by triggering the created task — Check the EC2 console to ensure the instance is running.</li>
+        </ol>
+        <!--
+            <div class="image-container">
+                <img src="images/ecs-steps.png" alt="ECS Steps">
+                <p>ECS Steps Overview</p>
+            </div>-->
+        </section>
+
+        <section>
+            <h2>Conclusion</h2>
+            <p>Congratulations! 🎉 You have successfully deployed your Django application on AWS cloud using ECS and ECR. Check if the Django application is running correctly by navigating to the public DNS of the instance in your browser.</p>
+           <!--
+            <div class="image-container">
+                <img src="images/django-app-deployed.png" alt="Django App Deployed">
+                <p>Django App Successfully Deployed</p>
+            </div>-->
+            <p>Many other factors come into play when deploying a full-fledged Django application on a production server. Some factors include:</p>
+            <ul>
+                <li>Security</li>
+                <li>Monitoring</li>
+                <li>Load Balancing</li>
+                <li>Recovery Plans</li>
+            </ul>
+            <p>Consider using AWS Beanstalk for a more efficient Django deployment.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Deploy Django on AWS. Happy Learning!</p>
+    </footer>
+</body>
+</html>

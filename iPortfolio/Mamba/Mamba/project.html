@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploy Code on Docker Container using Jenkins on AWS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background: #0073e6;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        main {
+            padding: 1rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: #0073e6;
+            border-bottom: 2px solid #0073e6;
+            padding-bottom: 0.5rem;
+        }
+
+        ul, ol {
+            margin: 0 0 1rem 1.5rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #0073e6;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Deploy Your Code on a Docker Container Using Jenkins on AWS</h1>
+    </header>
+    <main>
+        <h2>Introduction</h2>
+        <p>In this blog post, we will walk through deploying a Java web application on a Docker container using Jenkins on an AWS EC2 instance. This process involves setting up Jenkins, configuring Maven and Git, integrating GitHub and Maven with Jenkins, setting up a Docker host, integrating Docker with Jenkins, and automating the build and deployment process.</p>
+        <div class="image-container">
+            <img src="assets/img/p1-img1.png" alt="Deployment Architecture Overview">
+            <p>Deployment Architecture Overview</p>
+        </div>
+        <section>
+            <h2>Agenda</h2>
+            <ul>
+                <li>Setup Jenkins</li>
+                <li>Setup & Configure Maven and Git</li>
+                <li>Integrate GitHub and Maven with Jenkins</li>
+                <li>Setup Docker Host</li>
+                <li>Integrate Docker with Jenkins</li>
+                <li>Automate the Build and Deploy Process Using Jenkins</li>
+                <li>Test the Deployment</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Prerequisites</h2>
+            <ul>
+                <li>AWS Account</li>
+                <li>Git/GitHub Account with Source Code</li>
+                <li>A Local Machine with CLI Access</li>
+                <li>Familiarity with Docker and Git</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Step 1: Setup Jenkins Server on AWS EC2 Instance</h2>
+            <ol>
+                <li><strong>Launch EC2 Instance</strong>
+                    <ul>
+                        <li>Log in to the AWS Management Console, open the EC2 Dashboard, and click on "Launch Instance."</li>
+                        <li>Choose an EC2 instance type. For this demo, select the t2.micro instance type, which is eligible for the free tier.</li>
+                        <li>Select an existing key pair or create a new one if you don’t have one.</li>
+                        <li>Configure Network Settings: Choose the default VPC and enable "Auto-assign Public IP." Create a new security group allowing SSH traffic and custom TCP port 8080 for Jenkins.</li>
+                        <li>Review and launch the instance.</li>
+                    </ul>
+                    <div class="image-container">
+                        <img src="assets/img/p1-img2.png" alt="AWS EC2 Instance Launch">
+                        <p>AWS EC2 Instance Launch Configuration</p>
+                    </div>
+                </li>
+                <li><strong>Access the EC2 Instance</strong>
+                    <ul>
+                        <li>Once the instance is launched, click on the "Connect" button to obtain the SSH connection details.</li>
+                        <li>Use an SSH client (e.g., MobaXterm on Windows) to connect to the instance.</li>
+                    </ul>
+                </li>
+                <li><strong>Install Jenkins</strong>
+                    <ul>
+                        <li>Follow instructions from the <a href="https://pkg.jenkins.io/redhat-stable/" target="_blank">official Jenkins site</a> to install Jenkins on the EC2 instance.</li>
+                        <li>Access Jenkins via the public IP of your EC2 instance at port 8080.</li>
+                        <li>Retrieve the initial admin password from <code>/var/lib/jenkins/secrets/initialAdminPassword</code>.</li>
+                    </ul>
+                    <div class="image-container">
+                        <img src="assets/img/p1-img4.png" alt="Jenkins Setup">
+                        <img src="assets/img/p1-img5.png" alt="Jenkins Setup">
+                        <img src="assets/img/p1-img6.png" alt="Jenkins Setup">
+                        <p>Jenkins Setup on AWS EC2</p>
+                    </div>
+                </li>
+                <li><strong>Initial Jenkins Configuration</strong>
+                    <ul>
+                        <li>Follow the setup wizard to install suggested plugins and create the first admin user.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Step 2: Integrate GitHub with Jenkins</h2>
+            <ol>
+                <li><strong>Install Git</strong>
+                    <pre><code>sudo yum install git</code></pre>
+                    <ul>
+                        <li>Verify installation: <pre><code>git --version</code></pre></li>
+                    </ul>
+                </li>
+                <li><strong>Install GitHub Plugin</strong>
+                    <ul>
+                        <li>In Jenkins, go to "Manage Jenkins" > "Manage Plugins" > "Available," search for "GitHub Integration," and install it.</li>
+                    </ul>
+                </li>
+                <li><strong>Configure Git</strong>
+                    <ul>
+                        <li>Go to "Manage Jenkins" > "Global Tool Configuration."</li>
+                        <li>Add Git installation details, providing either the path or a simple name.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Step 3: Integrate Maven with Jenkins</h2>
+            <ol>
+                <li><strong>Install Maven</strong>
+                    <pre><code>cd /opt
+sudo wget http://apache.mirrors.hoobly.com/maven/maven-3/3.8.4/binaries/apache-maven-3.8.4-bin.tar.gz
+sudo tar xzf apache-maven-3.8.4-bin.tar.gz</code></pre>
+                </li>
+                <li><strong>Configure Environment Variables</strong>
+                    <ul>
+                        <li>Edit <code>~/.bash_profile</code> to include Maven and Java paths:</li>
+                        <pre><code>export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+export M2_HOME=/opt/apache-maven-3.8.4
+export PATH=$PATH:$M2_HOME/bin</code></pre>
+                        <li>Reload the profile: <pre><code>source ~/.bash_profile</code></pre></li>
+                    </ul>
+                </li>
+                <li><strong>Install Maven Plugin in Jenkins</strong>
+                    <ul>
+                        <li>Go to "Manage Jenkins" > "Manage Plugins" and install the Maven Integration Plugin.</li>
+                        <li>Configure Maven in "Global Tool Configuration."</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Step 4: Setup a Docker Host</h2>
+            <ol>
+                <li><strong>Launch EC2 Instance and Install Docker</strong>
+                    <ul>
+                        <li>Launch a new EC2 instance (similar to Step 1) and SSH into it.</li>
+                        <li>Install Docker:</li>
+                        <pre><code>sudo yum install docker
+sudo systemctl start docker
+sudo systemctl enable docker</code></pre>
+                    </ul>
+                    <div class="image-container">
+                        <!--<img src="images/docker-install.png" alt="Docker Installation">-->
+                        <p>Installing Docker on EC2 Instance</p>
+                    </div>
+                </li>
+                <li><strong>Run a Basic Docker Container</strong>
+                    <ul>
+                        <li>Run a test Docker container to ensure Docker is working:</li>
+                        <pre><code>sudo docker run hello-world</code></pre>
+                    </ul>
+                </li>
+                <li><strong>Pull Tomcat Image from Docker Hub</strong>
+                    <pre><code>sudo docker pull tomcat</code></pre>
+                </li>
+                <li><strong>Test Docker Container with a Simple WAR</strong>
+                    <ul>
+                        <li>Copy WAR file to the container:</li>
+                        <pre><code>docker cp webapp.war tomcat-container:/usr/local/tomcat/webapps</code></pre>
+                        <li>Verify deployment by accessing <code>http://<your-ec2-public-ip>:8081</code></li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Step 5: Integrate Docker with Jenkins</h2>
+            <ol>
+                <li><strong>Install Docker Plugin in Jenkins</strong>
+                    <ul>
+                        <li>Go to "Manage Jenkins" > "Manage Plugins" > "Available," search for "Docker," and install it.</li>
+                    </ul>
+                </li>
+                <li><strong>Configure Docker in Jenkins</strong>
+                    <ul>
+                        <li>Go to "Manage Jenkins" > "Configure System" and add Docker details.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Step 6: Configure Jenkins Pipeline</h2>
+            <ol>
+                <li><strong>Create a New Pipeline Job</strong>
+                    <ul>
+                        <li>In Jenkins, go to "New Item," enter a name, select "Pipeline," and click "OK."</li>
+                        <li>Under the "Pipeline" section, configure the pipeline script to automate the build and deployment process.</li>
+                    </ul>
+                </li>
+                <li><strong>Pipeline Script</strong>
+                    <pre><code>pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    docker.build('myapp', '.')
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    docker.image('myapp').run('-p 8080:8080')
+                }
+            }
+        }
+    }
+}</code></pre>
+                </li>
+                <li><strong>Test the Pipeline</strong>
+                    <ul>
+                        <li>Run the Jenkins pipeline job and monitor the console output for build and deployment status.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Step 7: Update Dockerfile to Copy Artifacts</h2>
+            <ol>
+                <li><strong>Update Dockerfile</strong>
+                    <pre><code>FROM tomcat:latest
+RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps
+COPY ./*.war /usr/local/tomcat/webapps</code></pre>
+                </li>
+                <li><strong>Build and Run Docker Container</strong>
+                    <ul>
+                        <li>Build and run the updated image:</li>
+                        <pre><code>docker build -t tomcat:v1 .
+docker run -d --name tomcatv1 -p 8086:8080 tomcat:v1</code></pre>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+        <section>
+            <h2>Step 8: Automate Build and Deployment</h2>
+            <ol>
+                <li><strong>Configure Jenkins Pipeline</strong>
+                    <ul>
+                        <li>Add commands to the Jenkins job to build and deploy the Docker container:</li>
+                        <pre><code>cd /opt/docker
+docker build -t regapp:v1 .
+docker run -d --name registerapp -p 8087:8080 regapp:v1</code></pre>
+                    </ul>
+                </li>
+                <li><strong>Trigger Build and Verify</strong>
+                    <ul>
+                        <li>Commit changes to GitHub to trigger Jenkins build and verify deployment by accessing the application in the browser.</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 </p>
+    </footer>
+</body>
+</html>

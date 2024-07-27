@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploy Scalable VPC Architecture on AWS Cloud</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background: #4a90e2;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #4a90e2;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        h3 {
+            color: #4a90e2;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        ul, ol {
+            margin: 0 0 1rem 1.5rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #e8e8e8;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        pre {
+            background: #e8e8e8;
+            padding: 1rem;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Deploy Scalable VPC Architecture on AWS Cloud</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>Deploy a Modular and Scalable Virtual Network Architecture with Amazon VPC.</p>
+            <div class="image-container">
+                <img src="assets/img/p3-img1.jpeg" alt="VPC Architecture Overview">
+                <p>VPC Architecture Overview</p>
+            </div>
+        </section>
+        <section>
+            <h2>Table of Contents</h2>
+            <ul>
+                <li>Goal</li>
+                <li>Pre-Requisites</li>
+                <li>Pre-Deployment</li>
+                <li>VPC Deployment</li>
+                <li>Validation</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Goal</h2>
+            <p>The goal of this project is to deploy a modular and scalable virtual network architecture using Amazon VPC.</p>
+        </section>
+        <section>
+            <h2>Pre-Requisites</h2>
+            <ul>
+                <li>Must have an AWS account to create infrastructure resources on AWS cloud</li>
+                <li>Source Code</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Pre-Deployment</h2>
+            <ul>
+                <li>Customize the application dependencies on AWS EC2 instance and create the Golden AMI:</li>
+                <ul>
+                    <li>AWS CLI</li>
+                    <li>Install Apache Web Server</li>
+                    <li>Install Git</li>
+                    <li>CloudWatch Agent</li>
+                    <li>Push custom memory metrics to CloudWatch</li>
+                    <li>AWS SSM Agent</li>
+                </ul>
+            </ul>
+        </section>
+        <section>
+            <h2>VPC Deployment</h2>
+            <ul>
+                <li>Build VPC network (192.168.0.0/16) for Bastion Host deployment as per the architecture shown above</li>
+                <li>Build VPC network (172.32.0.0/16) for deploying Highly Available and Auto Scalable application servers</li>
+                <li>Create NAT Gateway in Public Subnet and update Private Subnet associated Route Table</li>
+                <li>Create Transit Gateway and associate both VPCs for private communication</li>
+                <li>Create Internet Gateway for each VPC and Public Subnet associated Route Table</li>
+                <li>Create CloudWatch Log Group with two Log Streams for VPC Flow Logs</li>
+                <li>Enable Flow Logs for both VPCs and push to CloudWatch Log Groups</li>
+                <li>Create Security Group for Bastion Host allowing port 22 from public</li>
+                <li>Deploy Bastion Host EC2 instance in the Public Subnet with EIP</li>
+                <li>Create S3 Bucket to store application-specific configuration</li>
+                <li>Create Launch Configuration with the following settings:</li>
+                <ul>
+                    <li>Golden AMI</li>
+                    <li>Instance Type – t2.micro</li>
+                    <li>User data to pull code from Bitbucket Repository</li>
+                    <li>IAM Role for Session Manager and S3 bucket access</li>
+                    <li>Security Group allowing port 22 from Bastion Host and port 80 from Public</li>
+                    <li>Key Pair</li>
+                </ul>
+                <li>Create Auto Scaling Group with Min: 2 Max: 4 and two Private Subnets</li>
+                <li>Create Target Group and associate it with ASG</li>
+                <li>Create Network Load Balancer in Public Subnet and add Target Group</li>
+                <li>Update Route 53 hosted zone with CNAME record routing traffic to NLB</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Validation</h2>
+            <ul>
+                <li>As DevOps Engineer, login to Private Instances via Bastion Host</li>
+                <li>Login to AWS Session Manager and access EC2 shell from console</li>
+                <li>Browse web application from public internet browser using domain name and verify that the page loads</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deploy Java Application on AWS 3-Tier Architecture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background: #0073e6;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        main {
+            padding: 1rem;
+        }
+
+        section {
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            color: #0073e6;
+            border-bottom: 2px solid #0073e6;
+            padding-bottom: 0.5rem;
+        }
+
+        ul, ol {
+            margin: 0 0 1rem 1.5rem;
+        }
+
+        ul li, ol li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+
+        a {
+            color: #0073e6;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #f4f4f4;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Deploy Java Application on AWS 3-Tier Architecture</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Introduction</h2>
+            <p>The goal of this project is to deploy a scalable, highly available, and secure Java application on a 3-tier architecture and provide application access to end users from the public internet.</p>
+            <div class="image-container">
+                <img src="assets/img/p2-img1.png" alt="3-Tier Architecture Overview">
+                <p>3-Tier Architecture Overview</p>
+            </div>
+        </section>
+        <section>
+            <h2>Table of Contents</h2>
+            <ul>
+                <li>Goal</li>
+                <li>Pre-Requisites</li>
+                <li>Pre-Deployment</li>
+                <li>VPC Deployment</li>
+                <li>Maven (Build)</li>
+                <li>3-Tier Architecture</li>
+                <li>Application Deployment</li>
+                <li>Post-Deployment</li>
+                <li>Validation</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Goal</h2>
+            <p>The goal of this project is to deploy a scalable, highly available, and secure Java application on a 3-tier architecture and provide application access to end users from the public internet.</p>
+        </section>
+        <section>
+            <h2>Pre-Requisites</h2>
+            <ul>
+                <li>Create AWS Free Tier account</li>
+                <li>Create GitHub account and create a repository to keep this Java source code</li>
+                <li>Migrate Java source code to your own GitHub repository</li>
+                <li>Create an account in SonarCloud</li>
+                <li>Create an account in JFrog Cloud</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Pre-Deployment</h2>
+            <ul>
+                <li>Create Global AMI</li>
+                <li>AWS CLI</li>
+                <li>CloudWatch agent</li>
+                <li>Install AWS SSM agent</li>
+                <li>Create Golden AMI using Global AMI for Nginx application</li>
+                <li>Install Nginx</li>
+                <li>Push custom memory metrics to CloudWatch</li>
+                <li>Create Golden AMI using Global AMI for Apache Tomcat application</li>
+                <li>Install Apache Tomcat</li>
+                <li>Configure Tomcat as Systemd service</li>
+                <li>Install JDK 11</li>
+                <li>Push custom memory metrics to CloudWatch</li>
+                <li>Create Golden AMI using Global AMI for Apache Maven Build Tool</li>
+                <li>Install Apache Maven</li>
+                <li>Install Git</li>
+                <li>Install JDK 11</li>
+                <li>Update Maven Home to the system PATH environment variable</li>
+            </ul>
+        </section>
+        <section>
+            <h2>VPC Deployment</h2>
+            <ul>
+                <li>Deploy AWS Infrastructure resources as shown in the above architecture</li>
+                <li>Build VPC network (192.168.0.0/16) for Bastion Host deployment</li>
+                <li>Build VPC network (172.32.0.0/16) for deploying Highly Available and Auto Scalable application servers</li>
+                <li>Create NAT Gateway in Public Subnet and update Private Subnet associated Route Table accordingly</li>
+                <li>Create Transit Gateway and associate both VPCs for private communication</li>
+                <li>Create Internet Gateway for each VPC and update Public Subnet associated Route Table</li>
+                <li>Deploy Bastion Host in the Public Subnet with EIP associated</li>
+                <li>Create Security Group allowing port 22 from public internet</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Maven (Build)</h2>
+            <ul>
+                <li>Create EC2 instance using Maven Golden AMI</li>
+                <li>Clone GitHub repository to VSCode and update the <code>pom.xml</code> with Sonar and JFrog deployment details</li>
+                <li>Add <code>settings.xml</code> file to the root folder of the repository with JFrog credentials and repo</li>
+                <li>Update <code>application.properties</code> file with JDBC connection string</li>
+                <li>Push code changes to feature branch of GitHub repository</li>
+                <li>Raise Pull Request to approve and merge changes to Master branch</li>
+                <li>Login to EC2 instance and clone the GitHub repository</li>
+                <li>Build the source code using Maven arguments <code>-s settings.xml</code></li>
+                <li>Integrate Maven build with SonarCloud and generate analysis dashboard</li>
+            </ul>
+        </section>
+        <section>
+            <h2>3-Tier Architecture</h2>
+            <h3>Database (RDS)</h3>
+            <ul>
+                <li>Deploy Multi-AZ MySQL RDS instance into private subnets</li>
+                <li>Create Security Group allowing port 3306 from App instances and Bastion Host</li>
+            </ul>
+            <h3>Tomcat (Backend)</h3>
+            <ul>
+                <li>Create private facing Network Load Balancer and Target Group</li>
+                <li>Create Launch Configuration with Tomcat Golden AMI</li>
+                <li>User Data to deploy .war artifact from JFrog into webapps folder</li>
+                <li>Security Group allowing Port 22 from Bastion Host and Port 8080 from private NLB</li>
+                <li>Create Auto Scaling Group</li>
+            </ul>
+            <h3>Nginx (Frontend)</h3>
+            <ul>
+                <li>Create public facing Network Load Balancer and Target Group</li>
+                <li>Create Launch Configuration with Nginx Golden AMI</li>
+                <li>User Data to update <code>proxy_pass</code> rules in <code>nginx.conf</code> file and reload Nginx service</li>
+                <li>Security Group allowing Port 22 from Bastion Host and Port 80 from Public NLB</li>
+                <li>Create Auto Scaling Group</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Application Deployment</h2>
+            <ul>
+                <li>Artifact deployment handled by User Data script during Application tier EC2 instance launch process</li>
+                <li>Login to MySQL database from Application Server using MySQL CLI client and create database and table schema (Instructions in README.md file in GitHub repo)</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Post-Deployment</h2>
+            <ul>
+                <li>Configure Cronjob to push Tomcat Application log data to S3 bucket and rotate logs</li>
+                <li>Configure CloudWatch alarms to send E-Mail notification when database connections exceed threshold</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Validation</h2>
+            <ul>
+                <li>Verify administrator access to EC2 instances via session manager & Bastion Host</li>
+                <li>Verify end user access to application from public internet browser</li>
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 </p>
+    </footer>
+</body>
+</html>
